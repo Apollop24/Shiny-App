@@ -18,8 +18,7 @@ This Shiny app allows users to explore and visualize bike rental data. It includ
 
 ## Data Source
 
-The data used in this app is sourced from Kaggle. It includes rental data for bikes with various attributes. You can find the dataset [here](https://www.kaggle.com/).
-
+The data used in this app is sourced from Kaggle. It includes rental data for bikes with various attributes. You can find the dataset [here](https://www.kaggle.com/datasets/archit9406/bike-sharing)
 ## Attribute Information
 
 The dataset contains the following attributes:
