@@ -18,7 +18,8 @@ This Shiny app allows users to explore and visualize bike rental data. It includ
 
 ## Data Source
 
-The data used in this app is sourced from Kaggle. It includes rental data for bikes with various attributes. You can find the dataset [here](https://www.kaggle.com/datasets/archit9406/bike-sharing)
+The data used in this app is sourced from Kaggle. It includes rental data for bikes with various attributes. You can find the dataset [here](https://www.kaggle.com/).
+
 ## Attribute Information
 
 The dataset contains the following attributes:
@@ -192,3 +193,48 @@ ui <- fluidPage(
                                 start = min(bike_rental$dteday),
                                 end = max(bike_rental$dteday),
                                 min = min(bike
+
+_rental$dteday),
+                                max = max(bike_rental$dteday)),
+                 
+                 # Select Input for Seasons
+                 selectInput("season_filter", "Select Season:",
+                             choices = c("Spring", "Summer", "Fall", "Winter"),
+                             multiple = TRUE),
+                 
+                 # Select Input for Holiday
+                 selectInput("holiday_filter", "Select Holiday:",
+                             choices = c("No Holiday", "Holiday"),
+                             multiple = TRUE),
+                 
+                 # Select Input for Weather Situation
+                 selectInput("weathersit_filter", "Select Weather Situation:",
+                             choices = c("Clear", "Mist + Cloudy", "Light Snow + Rain", "Heavy Rain + Thunderstorm"),
+                             multiple = TRUE)
+    ),
+    mainPanel(
+      # Interactive histogram using plotly
+      plotlyOutput("histogram"),
+      
+      # Interactive box plot using plotly
+      plotlyOutput("boxplot"),
+      
+      # Interactive scatter plot 1 using plotly
+      plotlyOutput("scatter1"),
+      
+      # Interactive scatter plot 2 using plotly
+      plotlyOutput("scatter2"),
+      
+      # Interactive time series plot using plotly
+      plotlyOutput("time_series")
+    )
+  ))
+
+# Run the application
+shinyApp(ui, server)
+```
+
+## Conclusion
+
+This Shiny app provides an interactive way to explore bike rental data, allowing users to visualize and analyze patterns and trends. The app includes various plots and filters to facilitate data analysis.
+
