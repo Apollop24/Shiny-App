@@ -1,6 +1,8 @@
 # Bike Rental Data Analysis Shiny App
 
 This repository contains a Shiny application for visualizing and analyzing bike rental data. The data is sourced from Kaggle and includes various attributes such as date, temperature, humidity, and count of bike rentals. The application provides interactive plots to explore the data and understand patterns.
+<img width="940" height="551" alt="image" src="https://github.com/user-attachments/assets/42a65bba-4868-4c49-9ca1-38dd9d620efc" />
+
 
 ## Table of Contents
 1. [Introduction](#introduction)
