@@ -1,242 +1,155 @@
-# Bike Rental Data Analysis Shiny App
+# 🖤✨ Capital Bikeshare Intelligence Dashboard
 
-This repository contains a Shiny application for visualizing and analyzing bike rental data. The data is sourced from Kaggle and includes various attributes such as date, temperature, humidity, and count of bike rentals. The application provides interactive plots to explore the data and understand patterns.
-<img width="940" height="551" alt="image" src="https://github.com/user-attachments/assets/42a65bba-4868-4c49-9ca1-38dd9d620efc" />
+**Black & Gold Elegance Edition** — a professional, interactive Shiny application for exploring the UCI Capital Bikeshare dataset (2011–2012).
 
+![R](https://img.shields.io/badge/R-4.3%2B-D4AF37?style=for-the-badge&logo=r&logoColor=white&labelColor=0A0A0A)
+![Shiny](https://img.shields.io/badge/Shiny-Dashboard-D4AF37?style=for-the-badge&logo=rstudio&logoColor=white&labelColor=0A0A0A)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive-D4AF37?style=for-the-badge&logo=plotly&logoColor=white&labelColor=0A0A0A)
+![License](https://img.shields.io/badge/License-MIT-D4AF37?style=for-the-badge&labelColor=0A0A0A)
+
+---
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Data Source](#data-source)
-3. [Attribute Information](#attribute-information)
-4. [Installation](#installation)
-5. [Usage](#usage)
-6. [Features](#features)
-7. [Conclusion](#conclusion)
-8. [License](#license)
 
-## Introduction
+- [Overview](#overview)
+- [Design Language](#design-language)
+- [Data Source](#data-source)
+- [Attribute Information](#attribute-information)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
+- [Author](#author)
+- [License](#license)
 
-This Shiny app allows users to explore and visualize bike rental data. It includes various plots such as histograms, box plots, scatter plots, and time series plots to analyze the data based on different attributes and filters.
+---
+
+## Overview
+
+This repository contains a full redesign of an earlier beginner-level bike-rental Shiny app, rebuilt as a **production-grade analytics dashboard**. It is organized into six analytical modules — Executive Overview, Distribution, Seasonality & Weekday, Weather Impact, Correlation, and a searchable Data Explorer — all driven by a single set of shared, reactive filters (date range, season, weather situation, day type, and holiday status).
+
+Every chart in the application shares **one consistent visual language** rather than a different colour per plot: continuous variables (humidity, correlation strength) are mapped along a single navy-to-gold gradient, and categorical variables draw from the same gold-to-charcoal family. The result is a cohesive, boardroom-ready dashboard rather than a patchwork of default `ggplot2`/`plotly` colours.
+
+## Design Language
+
+**Black & Gold Elegance**
+
+| Role | Colour | Hex |
+|---|---|---|
+| Base black | ⬛ | `#0B0B0C` |
+| Deep navy | 🟦 | `#0A1128` |
+| Navy mid-tone | 🟦 | `#14213D` |
+| Deep gold | 🟨 | `#8C6A1F` |
+| Regal gold | 🟨 | `#D4AF37` |
+| Bright gold | 🟨 | `#F4C430` |
+| Ivory / white | ⬜ | `#F5F1E6` |
+
+This palette is defined once in `app.R` (`palette_black_gold`) and consumed everywhere — KPI cards, navigation, sliders, buttons, tables, and every Plotly chart — so the identity stays consistent as the dashboard grows.
 
 ## Data Source
 
-The data used in this app is sourced from Kaggle. It includes rental data for bikes with various attributes. You can find the dataset [here](https://www.kaggle.com/).
+The application uses the **UCI Capital Bikeshare Dataset** (`day.csv`), containing 731 daily records from the Capital Bikeshare system in Washington, D.C. across 2011–2012, together with the corresponding weather and seasonal information.
+
+> Fanaee-T, H. (2013). *Bike Sharing* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5W894
 
 ## Attribute Information
 
-The dataset contains the following attributes:
-
-1. **dteday**: Date of the rental
-2. **season**: Season (1: Winter, 2: Spring, 3: Summer, 4: Fall)
-3. **yr**: Year (0: 2011, 1: 2012)
-4. **mnth**: Month (1 to 12)
-5. **holiday**: Whether the day is a holiday (0: No, 1: Yes)
-6. **weekday**: Day of the week (0: Sunday, 1: Monday, ..., 6: Saturday)
-7. **workingday**: Whether the day is a working day (0: No, 1: Yes)
-8. **weathersit**: Weather situation (1: Clear, 2: Mist + Cloudy, 3: Light Snow + Rain, 4: Heavy Rain + Thunderstorm)
-9. **temp**: Normalized temperature in Celsius
-10. **atemp**: Normalized feeling temperature in Celsius
-11. **hum**: Normalized humidity
-12. **windspeed**: Normalized wind speed
-13. **cnt**: Count of total bike rentals
-
-## Installation
-
-To run the Shiny app, you need to have R and Shiny installed on your machine. Install the required packages using the following commands:
-
-```r
-install.packages("shiny")
-install.packages("plotly")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("readr")
-```
-
-## Usage
-
-1. Clone this repository to your local machine.
-2. Open the R script containing the Shiny app code.
-3. Run the script in RStudio or any other R environment.
-4. The Shiny app will launch in your default web browser.
+| Field | Description |
+|---|---|
+| `dteday` | Date of the rental |
+| `season` | Season (1: Winter, 2: Spring, 3: Summer, 4: Fall) |
+| `yr` | Year (0: 2011, 1: 2012) |
+| `mnth` | Month (1–12) |
+| `holiday` | Whether the day is a holiday |
+| `weekday` | Day of the week |
+| `workingday` | Whether the day is a working day |
+| `weathersit` | Weather situation (1: Clear, 2: Mist + Cloudy, 3: Light Snow/Rain, 4: Heavy Rain/Storm) |
+| `temp` / `atemp` | Normalized temperature / feels-like temperature (°C) |
+| `hum` | Normalized humidity |
+| `windspeed` | Normalized wind speed |
+| `casual` / `registered` / `cnt` | Casual, registered, and total daily rental counts |
 
 ## Features
 
-### Interactive Plots
+- **Global reactive filters** — date range, season, weather situation, day type, and holiday status apply across every tab simultaneously.
+- **Executive KPI cards** — total rentals, average daily rentals, registered rider share, and peak-day volume, recalculated live as filters change.
+- **Six analytical modules**
+  - *Executive Overview* — rental trend over time, casual vs. registered stacked area, and seasonal totals.
+  - *Distribution* — adjustable-bin histogram and kernel-density comparison by day type.
+  - *Seasonality & Weekday* — grouped boxplots by weekday/day type, monthly trend line, and weather-situation comparison.
+  - *Weather Impact* — temperature and wind-speed scatter plots, both coloured on the same humidity gradient.
+  - *Correlation* — a full correlation heatmap across temperature, humidity, wind speed, and ridership.
+  - *Data Explorer* — a searchable, sortable data table with a one-click CSV export of the currently filtered data.
+- **One shared colour system** — no per-chart colour guesswork; every plot reads as part of the same design.
+- **Fully interactive** — built on `plotly` for zoom, pan, hover tooltips, and legend toggling on every chart.
+- **Offline-friendly** — no external font or asset downloads at runtime, so the app runs the same in RStudio, Posit Cloud, Docker, or a bare `Rscript` call.
 
-1. **Histogram**: Displays the distribution of total bike rentals.
-2. **Box Plot**: Shows the count of bike rentals by weekday and working day.
-3. **Scatter Plot 1**: Visualizes the count of bike rentals by temperature and humidity.
-4. **Scatter Plot 2**: Visualizes the count of bike rentals by wind speed and humidity.
-5. **Time Series Plot**: Displays the count of bike rentals over time.
+## Project Structure
 
-### Filters
-
-- **Date Range**: Select the date range to filter the data.
-- **Season**: Filter the data by season.
-- **Holiday**: Filter the data by holiday status.
-- **Weather Situation**: Filter the data by weather situation.
-
-### Server Code
-
-The server code defines the reactive functions and renders the plots based on the filtered data.
-
-```r
-server <- function(input, output) {
-  # Reactive function to filter data based on the date range input and selected filters
-  filtered_data <- reactive({
-    bike_rental %>%
-      filter(dteday >= input$date_range[1] & dteday <= input$date_range[2]) %>%
-      mutate(weekday = factor(weekday, levels = 0:6, labels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")),
-             workingday = factor(workingday, levels = c(0, 1), labels = c("Non-Working Day", "Working Day")))
-  })
-  
-  # Plot 1: Histogram
-  output$histogram <- renderPlotly({
-    ggplot(filtered_data(), aes(x = cnt)) +
-      geom_histogram(binwidth = 100, fill = "darkblue", color = "white") +
-      xlab("Count of Total Rental Bikes") +
-      ylab("Frequency") +
-      ggtitle("Distribution of Total Number of Bike Rentals") +
-      theme(plot.title = element_text(family = "Times New Roman", size = 12))
-  })
-  
-  # Plot 2: Boxplot
-  output$boxplot <- renderPlotly({
-    ggplot(filtered_data(), aes(x = weekday, y = cnt, fill = workingday)) +
-      geom_boxplot(position = "identity", alpha = 0.7) +
-      scale_fill_manual(values = c("Non-Working Day" = "darkblue", "Working Day" = "orange")) +
-      xlab("Weekday") +
-      ylab("Count of Bike Rentals") +
-      ggtitle("Count of Bike Rentals by Weekday and Working Day") +
-      theme(text = element_text(family = "Times New Roman"))
-  })
-  
-  # Plot 3: Scatter Plot 1
-  output$scatter1 <- renderPlotly({
-    ggplot(filtered_data(), aes(x = temp, y = cnt)) +
-      geom_point(aes(color = hum)) +
-      scale_color_gradient(low = "darkblue", high = "red", name = "Humidity") +
-      geom_smooth(method = "lm", se = TRUE, level = 0.95) +
-      xlab("Temperature") +
-      ylab("Count of Bike Rentals") +
-      ggtitle("Count of Bike Rentals by Temperature and Humidity") +
-      theme(text = element_text(family = "Times New Roman"))
-  })
-  
-  # Plot 4: Scatter Plot 2
-  output$scatter2 <- renderPlotly({
-    ggplot(filtered_data(), aes(x = windspeed, y = cnt)) +
-      geom_point(aes(color = hum)) +
-      scale_color_gradient(low = "darkblue", high = "red", name = "Humidity") +
-      geom_smooth(method = "lm", se = TRUE, level = 0.95) +
-      xlab("Wind Speed") +
-      ylab("Count of Bike Rentals") +
-      ggtitle("Count of Bike Rentals by Wind Speed and Humidity") +
-      theme(text = element_text(family = "Times New Roman"))
-  })
-  
-  # Plot 5: Time Series Plot
-  output$time_series <- renderPlotly({
-    filtered_data() %>%
-      mutate(dteday = as.Date(dteday)) %>%
-      plot_ly(x = ~dteday, y = ~cnt, type = "scatter", mode = "lines", line = list(color = "darkblue")) %>%
-      layout(title = "Count of Bike Rentals over Time",
-             xaxis = list(title = "Date", tickfont = list(family = "Times New Roman")),
-             yaxis = list(title = "Count of Bike Rentals", tickfont = list(family = "Times New Roman")),
-             font = list(family = "Times New Roman"),
-             showlegend = FALSE,  # Hide legend to preserve the formatting
-             margin = list(l = 50, r = 20, t = 50, b = 70))  # Adjust margins for better appearance
-  })
-}
+```
+bike-shiny-app/
+├── app.R          # Complete Shiny application (UI + server + data prep)
+├── day.csv        # UCI Capital Bikeshare daily dataset
+├── www/           # Static assets folder (reserved for custom assets)
+├── README.md      # This file
+├── LICENSE        # MIT License
+└── .gitignore     # R / RStudio ignore rules
 ```
 
-### UI Code
+## Installation
 
-The UI code defines the layout and components of the Shiny app.
+Requires **R 4.1+**. Install the required packages:
 
 ```r
-ui <- fluidPage(
-  # Custom CSS style to center the title
-  tags$style(HTML("
-    .title-panel {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      color: #FFFFFF; /* Set the font color to white (#FFFFFF) */
-      background-color: #00008B; /* Set the background color to Darkblue (#00008B) */
-      width: 100%; /* Extend the width to cover the entire container */
-      height: 80px; /* Set a specific height for the title panel (adjust as needed) */
-    }
-    .title-panel .title {
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 60px;
-      font-weight: bold;
-      text-align: center; /* Align the content (title) to the center */
-      margin-bottom: 0px; /* Add some spacing between the title and subtitle */
-    }
-    .title-panel .subtitle {
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 15px;
-      font-weight: bold;
-      text-align: center; /* Align the content (subtitle) to the left */
-      margin-top: 0;
-      padding-left: 10px; /* Add some padding on the left side for spacing */
-    }
-  ")),
-  
-  # UI components
-  titlePanel(
-    div(class = "title-panel",
-        div(class = "title", "DataSon Analytics Dashboard"),
-        div(class = "subtitle", "Data Son of Data")
-    )),
-  
-  sidebarLayout(
-    sidebarPanel(dateRangeInput("date_range", "Select Date Range:",
-                                start = min(bike_rental$dteday),
-                                end = max(bike_rental$dteday),
-                                min = min(bike
-
-_rental$dteday),
-                                max = max(bike_rental$dteday)),
-                 
-                 # Select Input for Seasons
-                 selectInput("season_filter", "Select Season:",
-                             choices = c("Spring", "Summer", "Fall", "Winter"),
-                             multiple = TRUE),
-                 
-                 # Select Input for Holiday
-                 selectInput("holiday_filter", "Select Holiday:",
-                             choices = c("No Holiday", "Holiday"),
-                             multiple = TRUE),
-                 
-                 # Select Input for Weather Situation
-                 selectInput("weathersit_filter", "Select Weather Situation:",
-                             choices = c("Clear", "Mist + Cloudy", "Light Snow + Rain", "Heavy Rain + Thunderstorm"),
-                             multiple = TRUE)
-    ),
-    mainPanel(
-      # Interactive histogram using plotly
-      plotlyOutput("histogram"),
-      
-      # Interactive box plot using plotly
-      plotlyOutput("boxplot"),
-      
-      # Interactive scatter plot 1 using plotly
-      plotlyOutput("scatter1"),
-      
-      # Interactive scatter plot 2 using plotly
-      plotlyOutput("scatter2"),
-      
-      # Interactive time series plot using plotly
-      plotlyOutput("time_series")
-    )
-  ))
-
-# Run the application
-shinyApp(ui, server)
+install.packages(c(
+  "shiny", "bslib", "plotly", "dplyr", "tidyr",
+  "DT", "scales", "lubridate"
+))
 ```
 
-## Conclusion
+The app installs any missing package automatically on first launch as a convenience fallback, but pre-installing is recommended for a faster first run.
 
-This Shiny app provides an interactive way to explore bike rental data, allowing users to visualize and analyze patterns and trends. The app includes various plots and filters to facilitate data analysis.
+## Usage
 
+Clone the repository and launch the app from its own directory:
+
+```r
+# From within the bike-shiny-app/ directory
+shiny::runApp("app.R")
+```
+
+Or, from the command line:
+
+```bash
+Rscript -e 'shiny::runApp("app.R", launch.browser = TRUE)'
+```
+
+The dashboard will open in your default web browser. `day.csv` is read relative to the app's own location, so no path editing is required.
+
+## Screenshots
+
+> Add a screenshot of the running dashboard here after your first local launch, for example:
+>
+> `![Dashboard preview](www/dashboard-preview.png)`
+
+## Tech Stack
+
+- **R** — core language
+- **Shiny** — reactive web application framework
+- **bslib** — Bootstrap 5 theming engine (custom Black & Gold Elegance theme)
+- **plotly** — interactive charting
+- **dplyr / tidyr** — data wrangling
+- **DT** — interactive data tables
+- **scales / lubridate** — formatting and date handling
+
+## Author
+
+**Kibet Philip**
+Data Analyst · Statistician · Data Scientist
+GitHub: [@Apollop24](https://github.com/Apollop24)
+
+## License
+
+Released under the [MIT License](LICENSE).
