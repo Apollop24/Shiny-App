@@ -130,9 +130,22 @@ The dashboard will open in your default web browser. `day.csv` is read relative 
 
 ## Screenshots
 
-> Add a screenshot of the running dashboard here after your first local launch, for example:
->
-> `![Dashboard preview](www/dashboard-preview.png)`
+
+<img width="1918" height="944" alt="image" src="https://github.com/user-attachments/assets/280ad70c-e557-4beb-bb79-317d48f897aa" />
+
+<img width="1910" height="940" alt="image" src="https://github.com/user-attachments/assets/606712ae-8bb0-48f8-81f6-85392ec3c938" />
+
+<img width="1902" height="935" alt="image" src="https://github.com/user-attachments/assets/9b480708-6eaf-4642-b578-7c3beae6e194" />
+
+<img width="1470" height="682" alt="image" src="https://github.com/user-attachments/assets/cd859c60-e356-4829-8ff6-0ffa1ee0d8d9" />
+
+
+<img width="1890" height="828" alt="image" src="https://github.com/user-attachments/assets/8db36abe-fa88-4c94-b3d3-2bf02f279e57" />
+
+<img width="1886" height="809" alt="image" src="https://github.com/user-attachments/assets/4eb4e5eb-40b9-4a1e-a2b1-6f7c6f7b8eac" />
+
+<img width="1862" height="807" alt="image" src="https://github.com/user-attachments/assets/1cfcbfad-819d-48f6-a4a4-0aeb6d8738e9" />
+
 
 ## Tech Stack
 
